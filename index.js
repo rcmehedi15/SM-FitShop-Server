@@ -13,9 +13,9 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use((req, res, next) => {
-    res.header({"Access-Control-Allow-Origin": "*"});
+    res.header({ "Access-Control-Allow-Origin": "*" });
     next();
-  })
+})
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@mehedi15.lrak9tg.mongodb.net/?retryWrites=true&w=majority`;
@@ -53,6 +53,39 @@ async function run() {
             const result = await classesCollection.insertOne(singleClass);
             res.send(result);
         })
+        // get all classes data 
+
+        app.get('/classes', async (req, res) => {
+            const result = await classesCollection.find().toArray()
+            res.send(result)
+        })
+
+
+        // Get a instructor posted single class
+        app.get('/classes/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { 'instructor.email': email };
+
+            try {
+                const result = await classesCollection.find(query).toArray();
+                res.send(result);
+                console.log(result);
+            } catch (error) {
+                console.error(error);
+                res.status(500).send('An error occurred');
+            }
+        });
+
+
+
+        // Get user
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email
+            const query = { email: email }
+            const result = await usersCollection.findOne(query)
+            res.send(result)
+        })
+
 
         // Send a ping to confirm a successful connection
         await client.db('admin').command({ ping: 1 })
