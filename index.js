@@ -30,6 +30,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try {
+        /// our all collection 
         const usersCollection = client.db('SM-Fit').collection('users')
         const classesCollection = client.db('SM-Fit').collection('classes')
 
