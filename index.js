@@ -77,9 +77,9 @@ async function run() {
             console.log(result);
         })
         // 
-        app.get('/users/instructor', async (req, res) => {
+        app.get('/classes/instructor', async (req, res) => {
             const filter = { role : 'instructor' }
-            const result = await usersCollection.find(filter).toArray()
+            const result = await classesCollection.find(filter).toArray()
             res.send(result)
             console.log(result);
         })
