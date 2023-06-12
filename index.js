@@ -16,6 +16,7 @@ app.use((req, res, next) => {
     res.header({ "Access-Control-Allow-Origin": "*" });
     next();
 })
+// database connection 
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@mehedi15.lrak9tg.mongodb.net/?retryWrites=true&w=majority`;
