@@ -53,6 +53,21 @@ async function run() {
             const result = await classesCollection.insertOne(singleClass);
             res.send(result);
         })
+
+
+        /
+        // Update instructor post data
+        app.put('/classes/:id', async (req, res) => {
+            const classes = req.body
+            const filter = { _id: new ObjectId(req.params.id) }
+            const options = { upsert: true }
+            const updateDoc = {
+                $set: classes,
+            }
+            const result = await classesCollection.updateOne(filter, updateDoc, options)
+            res.send(result)
+        })
+
         // get all classes data 
 
         app.get('/classes', async (req, res) => {
@@ -75,6 +90,15 @@ async function run() {
                 res.status(500).send('An error occurred');
             }
         });
+
+        // deleted single room 
+        app.delete('/classes/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: new ObjectId(id) }
+            const result = await classesCollection.deleteOne(query)
+            res.send(result)
+            console.log(result);
+        })
 
 
 
