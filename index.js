@@ -57,24 +57,31 @@ async function run() {
         })
 
 
-        /
-        // Update instructor post data
-        app.put('/classes/:id', async (req, res) => {
-            const classes = req.body
-            const filter = { _id: new ObjectId(req.params.id) }
-            const options = { upsert: true }
-            const updateDoc = {
-                $set: classes,
-            }
-            const result = await classesCollection.updateOne(filter, updateDoc, options)
+            /
+            // Update instructor post data
+            app.put('/classes/:id', async (req, res) => {
+                const classes = req.body
+                const filter = { _id: new ObjectId(req.params.id) }
+                const options = { upsert: true }
+                const updateDoc = {
+                    $set: classes,
+                }
+                const result = await classesCollection.updateOne(filter, updateDoc, options)
+                res.send(result)
+            })
+
+
+        // get all user 
+        app.get('/users', async (req, res) => {
+            const result = await usersCollection.find().toArray()
             res.send(result)
         })
-
         // get all classes data 
 
         app.get('/classes', async (req, res) => {
             const result = await classesCollection.find().toArray()
             res.send(result)
+            console.log(result);
         })
 
 
