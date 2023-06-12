@@ -40,6 +40,7 @@ async function run() {
             const email = req.params.email
             const user = req.body
             const query = { email: email }
+            console.log(query);
             const options = { upsert: true }
             const updateDoc = {
                 $set: user,
@@ -78,7 +79,7 @@ async function run() {
         })
         // only instructor show
         app.get('/users/instructor', async (req, res) => {
-            const filter = { role : 'instructor' }
+            const filter = { role: 'instructor' }
             const result = await usersCollection.find(filter).toArray()
             res.send(result)
             console.log(result);
@@ -127,7 +128,18 @@ async function run() {
             res.send(result)
         })
 
-
+        // user data patch
+        app.patch('/users/admin/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const updateDoc = {
+                $set: {
+                    role: 'admin'
+                },
+            };
+            const result = await usersCollection.updateOne(filter, updateDoc);
+            res.send(result)
+        })
         // Send a ping to confirm a successful connection
         await client.db('admin').command({ ping: 1 })
         console.log(
