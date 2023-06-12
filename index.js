@@ -70,12 +70,20 @@ async function run() {
                 res.send(result)
             })
 
-
-        // get all user 
+        /// get all uses 
         app.get('/users', async (req, res) => {
             const result = await usersCollection.find().toArray()
             res.send(result)
+            console.log(result);
         })
+        // 
+        app.get('/users/instructor', async (req, res) => {
+            const filter = { role : 'instructor' }
+            const result = await usersCollection.find(filter).toArray()
+            res.send(result)
+            console.log(result);
+        })
+
         // get all classes data 
 
         app.get('/classes', async (req, res) => {
